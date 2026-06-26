@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Kalman Filter</title>
+    <link href="/latexmathjax.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/style.css" rel="stylesheet" type="text/css" media="all">
+    <script src="/latexmathjax.js" type="text/javascript"></script>
+    <script src="/components/header.js" type="text/javascript" defer></script>
+    <script src="/components/footer.js" type="text/javascript" defer></script>
+  </head>
+  <body>
+    <navbar-header></navbar-header>
+    <div class="main-content">
+      <center><h1>The Kalman Filter</h1></center>
+      
+      <article><pre id="ltx" class="LaTeX">
+
+        When I first joined my lab during grad school and started my project, my boss told me to derive every algorithm I was going to use for my project.
+        Not having much of a background in math or statistics at the time, it was a painful process at first, but it proved to be a fruitful venture.
+        I figured that, to make sure I learned it properly and help other people learn it, I would write a small blog post explaining it.
+        Most of this is taken from Pattern Recognition and Machine learning by Bishop.
+        <!-- Link to Bishop textbook page soon-->
+        
+        <h2>Motivation</h2>
+        Kalman filtering is a method for finding the underlying sequence of states given a linear system of equations which has gaussian white noise injected into it, causing uncertainty about the true state of the object.
+        It's very similar to working with a Hidden Markov Model (HMM) except that our system is not totally deterministic (or at least we <a href="https://open.substack.com/pub/wmbriggs/p/truly-random-numbers-found">don't have full knowledge of the underlying causes</a> changing the state of our system).
+        The most common use-case for this method is tracking the position of an object moving through space. It's very useful here because we're imposing a constraint on the state of the object that forces the position to change smoothly.
+        <!-- Link to my paper with Eryn here as an example from neuroscience when we finally get to that-->
+        <center><figure>
+          <img src=/blog/kalman_filter/you_should_solve_this_lds.png>
+          <figcaption>And you will be able to solve this!</figcaption>
+        </figure></center>
+      </pre></article>
+      
+    </div>
+    <footer-element></footer-element>
+  </body>
+</html>
