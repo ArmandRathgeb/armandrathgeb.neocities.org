@@ -5,7 +5,8 @@ class Footer extends HTMLElement {
   
   connectedCallback() {
      this.innerHTML = `
-    <footer>
+    <img src="/resources/kurisu_sunglasses_transparent.png" class="footer-img-l">
+    <footer class="main-content">
     <footer>
     `;
   }

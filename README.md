@@ -1,0 +1,1 @@
+My neocities website sources and where I store all my blog posts.
