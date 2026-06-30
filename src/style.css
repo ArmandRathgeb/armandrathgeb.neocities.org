@@ -37,7 +37,7 @@ html,body {
   font-family: 'Google Sans Code';
   background-image: url("/resources/brain.svg");
   background-repeat: repeat repeat;
-  background-size: 20em;
+  background-size: 35em;
 }
 
 /* Header elements */
@@ -126,8 +126,8 @@ header {
 }
 
 .badge-sidebar img {
-  height: 40px;
-  width: auto;
+  width: 125px;
+  height: auto;
 }
 
 .content {
@@ -162,7 +162,7 @@ header {
 
 .wrapper { 
   display: grid;
-  grid-template-columns: 200px 200px 200px;
+  grid-template-columns: repeat(4, 200px);
   row-gap: 1em;
   column-gap: 1em;
   place-self: center;
@@ -182,17 +182,22 @@ header {
   background-image: linear-gradient(to bottom, #8471DCF0, #A277FFE0);
 }
 
+.container-link img {
+  height: 50px;
+  width: auto;
+}
+
 .center-list li {
   list-style: none;
 }
 
-.sidebar ul {
+.sidebar ul, .badage-sidebar ul {
   list-style-type: none;
   padding: 0px;
   margin: 0px;
 }
 
-.sidebar li {
+.sidebar li, .badge-sidebar li {
   display: inline;
   padding-left: 14px;
 }
