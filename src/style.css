@@ -140,6 +140,10 @@ header {
   gap: 20px;
 }
 
+.column .sidebar {
+  flex-grow: 1;
+}
+
 .main-content {
   flex: 1;
   border-radius: 20px;
@@ -185,10 +189,6 @@ header {
 .container-link img {
   height: 50px;
   width: auto;
-}
-
-.center-list li {
-  list-style: none;
 }
 
 .sidebar ul, .badage-sidebar ul {
@@ -244,6 +244,7 @@ footer {
   opacity: .75;
   bottom: 0;
   left: 0;
+  transition: 0.75s;
 }
 
 .footer-img-l:hover {
