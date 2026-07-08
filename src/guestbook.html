@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Armand's Corner - Guestbook</title>
+    <link href="/style.css" rel="stylesheet" type="text/css" media="all">
+    <script src="/js/header.js" type="text/javascript" defer></script>
+    <script src="/js/footer.js" type="text/javascript" defer></script>
+    <style>
+        .main-content {
+            display: flex;
+            flex-direction: column;
+        }
+        .main-content iframe {
+            flex-grow: 1;
+            width: 500px;
+            height: 700px;
+        }
+    </style>
+  </head>
+      
+  <body>
+    <navbar-header></navbar-header>
+    
+    <div class="content">
+      <div class="main-content" style="display: flex;">
+        <center>
+          <iframe 
+            src="https://armandrathgeb.atabook.org/">
+          </iframe>
+        </center>
+      </div>
+    </div>
+    
+    <footer-element></footer-element>
+  </body>
+</html>
