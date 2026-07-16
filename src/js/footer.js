@@ -5,7 +5,6 @@ class Footer extends HTMLElement {
   
   connectedCallback() {
      this.innerHTML = `
-    <img src="/resources/kurisu_sunglasses_transparent.png" class="footer-img-l">
     <footer class="main-content">
       Armand Rathgeb, 2026- 
       <div class="vr"></div>
@@ -13,6 +12,7 @@ class Footer extends HTMLElement {
       <div class="vr"></div>
       <a href="/pgp.html">PGP</a>
     <footer>
+    <img src="/resources/kurisu_sunglasses_transparent.png" class="footer-img-l">
     `;
   }
 }

@@ -12,94 +12,96 @@
   </head>
   <body>
     <navbar-header></navbar-header>
-    <div class="main-content">
-      <center><h1>The Kalman Filter</h1></center>
-      
-      <article>
-
-        When I first joined my lab during grad school and started my project, my boss told me to derive every algorithm I was going to use for my project.
-        Not having much of a background in math or statistics at the time, it was a painful process at first, but it proved to be a fruitful venture.
-        I figured that, to make sure I learned it properly and help other people learn it, I would write a small blog post explaining it.
-        Most of this is taken from Pattern Recognition and Machine learning by Bishop.
-        <!-- Link to Bishop textbook page soon-->
+    <div class="column">
+      <div class="article-content">
+        <center><h1>The Kalman Filter</h1></center>
         
-        <h2>Motivation</h2>
-        Kalman filtering is a method for finding the underlying sequence of states given a linear system of equations which has gaussian white noise injected into it, causing uncertainty about the true state of the object.
-        It's very similar to working with a Hidden Markov Model (HMM) except that our system is not totally deterministic (or at least we <a href="https://open.substack.com/pub/wmbriggs/p/truly-random-numbers-found">don't have full knowledge of the underlying causes</a> changing the state of our system).
-        The most common use-case for this method is tracking the position of an object moving through space. It's very useful here because we're imposing a constraint on the state of the object that forces the position to change smoothly.
-        <!-- Link to my paper with Eryn here as an example from neuroscience when we finally get to that-->
-        The general form of the system is as follows:
-        $$z_{t+1} = Az_t + w_t$$
-        $$x_{t} = Cz_t + v_t$$
-        $$z_1 = \mu_0 + w_0$$
-        where 
-        $z_t$ is our 'true' or 'hidden' state, $x_t$ is our observations, $A$ is a matrix governing the transition between hidden states, $C$ is a matrix governing how our observations occur,
-        $$w_t \sim \mathcal{N}(0,\Gamma)$$
-        $$v_t \sim \mathcal{N}(0,\Sigma)$$
-        $$w_0 \sim \mathcal{N}(0,V_0)$$
-        We have a deterministic system with white noise added, confounding our estimation of the underlying state of the system.
+        <article>
 
-        <center><figure>
-          <img src=/blog/kalman_filter/you_should_solve_this_lds.png>
-          <figcaption>And you will be able to solve this!</figcaption>
-        </figure></center>
+          When I first joined my lab during grad school and started my project, my boss told me to derive every algorithm I was going to use for my project.
+          Not having much of a background in math or statistics at the time, it was a painful process at first, but it proved to be a fruitful venture.
+          I figured that, to make sure I learned it properly and help other people learn it, I would write a small blog post explaining it.
+          Most of this is taken from Pattern Recognition and Machine learning by Bishop.
+          <!-- Link to Bishop textbook page soon-->
+          
+          <h2>Motivation</h2>
+          Kalman filtering is a method for finding the underlying sequence of states given a linear system of equations which has gaussian white noise injected into it, causing uncertainty about the true state of the object.
+          It's very similar to working with a Hidden Markov Model (HMM) except that our system is not totally deterministic (or at least we <a href="https://open.substack.com/pub/wmbriggs/p/truly-random-numbers-found">don't have full knowledge of the underlying causes</a> changing the state of our system).
+          The most common use-case for this method is tracking the position of an object moving through space. It's very useful here because we're imposing a constraint on the state of the object that forces the position to change smoothly.
+          <!-- Link to my paper with Eryn here as an example from neuroscience when we finally get to that-->
+          The general form of the system is as follows:
+          $$z_{t+1} = Az_t + w_t$$
+          $$x_{t} = Cz_t + v_t$$
+          $$z_1 = \mu_0 + w_0$$
+          where 
+          $z_t$ is our 'true' or 'hidden' state, $x_t$ is our observations, $A$ is a matrix governing the transition between hidden states, $C$ is a matrix governing how our observations occur,
+          $$w_t \sim \mathcal{N}(0,\Gamma)$$
+          $$v_t \sim \mathcal{N}(0,\Sigma)$$
+          $$w_0 \sim \mathcal{N}(0,V_0)$$
+          We have a deterministic system with white noise added, confounding our estimation of the underlying state of the system.
 
-        <h2>The Algorithm</h2>
-        What we want is an efficient algorithm to estimate the hidden states of our model, given our implicit structure and our observations.
-        For deterministic Hidden Markov Models, we already have the sum-product, or forward-backward algorithm, which works to maximize $P(X|Z,\theta)$ where $Z$ is the model's hidden states, $X$ is the observations, and $\theta$ is the model's parameters.
-        Formulated generally, we want to find a <b>maximum-likelihood</b> estimate of the hidden states and parameters of our model.
-        It does this using a technique called <b>Expectation-Maximization</b> (EM).
+          <center><figure>
+            <img src=/blog/kalman_filter/you_should_solve_this_lds.png>
+            <figcaption>And you will be able to solve this!</figcaption>
+          </figure></center>
 
-        <h3>Expectation-Maximization</h3>
-        Before we apply it to our specific case of a linear dynamic system, let's cover the EM algorithm in general terms.
-        Let's start with a probabilistic model $P(X|\theta)$ in which we've added a set of hidden variables $Z$ that we marginalize over:
-        $$ln\ P(X|\theta) = ln\ \int P(X,Z|\theta) dZ$$
-        We work with the log for simplicity. Now how do we find a set of parameters and hidden states that maximize this function?
-        The first thing we do, which seems a little silly but trust me, we'd die without it, is to introduce a tractable distribution $Q(Z)$ into our equation:
-        $$ln\ P(X|\theta) = ln\ \int Q(Z)\frac{P(X,Z|\theta)}{Q(Z)} dZ$$
-        We do this because we don't actually know the form of our marginal distribution, so we introduce this distribution $Q(Z)$. 
-        As $Q(Z)$ gets closer to our marginal distribution, the fraction gets closer and closer to 1, and our estimate of $P(X|\theta)$ gets better.
-        We now use <a href="https://en.wikipedia.org/wiki/Jensen's_inequality">Jensen's inequality</a>
-        $$ln\ P(X|\theta) \geq \int Q(Z)ln\ \frac{P(X,Z|\theta)}{Q(Z)} dZ = ELBO(Q,\theta)$$
-        This value is our Expectation Lower Bound (ELBO). The ELBO is the lower bound on our log-likelihood given our function $Q$ and our parameters.
-        Notice the inequality that persists in our derivation. Let's see how large the gap between $P(X|\theta)$ and the ELBO is.
-        $$ln\ P(X|\theta) - ELBO(Q,\theta) \geq 0$$
-        $$\int Q(Z)P(X|theta)dZ - ELBO(Q,\theta) \geq 0$$
-        $$\int Q(Z)\frac{Q(Z)P(X|\theta)}{P(X,Z|\theta)} dZ \geq 0$$
-        $$-\int Q(Z)\frac{P(Z|X,\theta)}{Q(Z)} \geq 0 = KL(Q(Z)||P(Z|X,\theta))$$
-        Interesting! We've found that the gap between our ELBO and our log-likelihood is the KL-divergence between $Q$ and our posterior distribution $P(Z|X,\theta)$!
-        Let's think about this now, we've decomposed our log-likelihood as follows:
-        $$ln\ P(X|\theta) = ELBO(Q,\theta) + KL(Q(Z)||P(Z|X,\theta))$$
-        When $Q$ is equal to the posterior, the KL-divergence is 0 and our ELBO is at it's maximum and equal to our log-likelihood.
-        So what we want is a distribution $Q$ and a set of parameters $\theta$ such that our KL-divergence goes to 0 and our ELBO goes to our log-likelihood.
-        It's too difficult to optimize these things at the same time, so we have a two-stage iterative process that optimizes $Q$ and then $\theta$. 
-        We call this method, <b>Expectation-Maximization</b>.
-        In the first step, the 'E'-step, we hold $\theta$ constant and maximize our ELBO with respect to $Q(Z)$, minimizing the KL-divergence with respect to our parameters!
-        In the 'M'-step, we maximize the ELBO with respect to $\theta$, which will increase the KL-divergence unless we're already at the maximum.
-        Repeat until convergence.
+          <h2>The Algorithm</h2>
+          What we want is an efficient algorithm to estimate the hidden states of our model, given our implicit structure and our observations.
+          For deterministic Hidden Markov Models, we already have the sum-product, or forward-backward algorithm, which works to maximize $P(X|Z,\theta)$ where $Z$ is the model's hidden states, $X$ is the observations, and $\theta$ is the model's parameters.
+          Formulated generally, we want to find a <b>maximum-likelihood</b> estimate of the hidden states and parameters of our model.
+          It does this using a technique called <b>Expectation-Maximization</b> (EM).
 
-        <h3>The Meat and Potatoes</h3>
-        How does this help us? Well, let's think about our linear dynamic system: we have a set of parameters $\theta \in \{A,C,\mu_0,\Gamma,\Sigma,V_0\}$ and a set of hidden states that we want to discover.
-        We can use the EM algorithm and solve for the sequence of hidden states $z_{1:T}$ in the E-step, and then optimize for $\theta$ in our M-step!
-        Our dynamical system gives rise to the following properties:
-        $$P(z_{t+1}|z_t) = \mathcal{N}(z_{t+1}|Az_t,\Gamma)$$
-        $$P(x_t|z_t) = \mathcal{N}(x_t|Cz_t,\Sigma)$$
-        $$P(z_1) = \mathcal{N}(z_1|\mu_0,V_0)$$
-        where we take the condition on $\theta$ to be given for notational purposes.
-        Factorizing our model using the markov independence assumption (the state at time $t$ only depends on the state at $t-1$), our log-likelihood becomes
-        $$ln\ P(X|\theta) = \sum_{t=1}^T ln\ P(x_t|z_t, C, \Sigma) + \sum_{t=2}^T ln\ P(z_t|z_{t-1}, A, \Gamma) + ln\ P(z_1|\mu_0, V_0)$$
+          <h3>Expectation-Maximization</h3>
+          Before we apply it to our specific case of a linear dynamic system, let's cover the EM algorithm in general terms.
+          Let's start with a probabilistic model $P(X|\theta)$ in which we've added a set of hidden variables $Z$ that we marginalize over:
+          $$ln\ P(X|\theta) = ln\ \int P(X,Z|\theta) dZ$$
+          We work with the log for simplicity. Now how do we find a set of parameters and hidden states that maximize this function?
+          The first thing we do, which seems a little silly but trust me, we'd die without it, is to introduce a tractable distribution $Q(Z)$ into our equation:
+          $$ln\ P(X|\theta) = ln\ \int Q(Z)\frac{P(X,Z|\theta)}{Q(Z)} dZ$$
+          We do this because we don't actually know the form of our marginal distribution, so we introduce this distribution $Q(Z)$. 
+          As $Q(Z)$ gets closer to our marginal distribution, the fraction gets closer and closer to 1, and our estimate of $P(X|\theta)$ gets better.
+          We now use <a href="https://en.wikipedia.org/wiki/Jensen's_inequality">Jensen's inequality</a>
+          $$ln\ P(X|\theta) \geq \int Q(Z)ln\ \frac{P(X,Z|\theta)}{Q(Z)} dZ = ELBO(Q,\theta)$$
+          This value is our Expectation Lower Bound (ELBO). The ELBO is the lower bound on our log-likelihood given our function $Q$ and our parameters.
+          Notice the inequality that persists in our derivation. Let's see how large the gap between $P(X|\theta)$ and the ELBO is.
+          $$ln\ P(X|\theta) - ELBO(Q,\theta) \geq 0$$
+          $$\int Q(Z)P(X|theta)dZ - ELBO(Q,\theta) \geq 0$$
+          $$\int Q(Z)\frac{Q(Z)P(X|\theta)}{P(X,Z|\theta)} dZ \geq 0$$
+          $$-\int Q(Z)\frac{P(Z|X,\theta)}{Q(Z)} \geq 0 = KL(Q(Z)||P(Z|X,\theta))$$
+          Interesting! We've found that the gap between our ELBO and our log-likelihood is the KL-divergence between $Q$ and our posterior distribution $P(Z|X,\theta)$!
+          Let's think about this now, we've decomposed our log-likelihood as follows:
+          $$ln\ P(X|\theta) = ELBO(Q,\theta) + KL(Q(Z)||P(Z|X,\theta))$$
+          When $Q$ is equal to the posterior, the KL-divergence is 0 and our ELBO is at it's maximum and equal to our log-likelihood.
+          So what we want is a distribution $Q$ and a set of parameters $\theta$ such that our KL-divergence goes to 0 and our ELBO goes to our log-likelihood.
+          It's too difficult to optimize these things at the same time, so we have a two-stage iterative process that optimizes $Q$ and then $\theta$. 
+          We call this method, <b>Expectation-Maximization</b>.
+          In the first step, the 'E'-step, we hold $\theta$ constant and maximize our ELBO with respect to $Q(Z)$, minimizing the KL-divergence with respect to our parameters!
+          In the 'M'-step, we maximize the ELBO with respect to $\theta$, which will increase the KL-divergence unless we're already at the maximum.
+          Repeat until convergence.
 
-        <h4>Deriving the E-Step</h4>
-        Given this, our goal in the E-step is to find $P(z_t|X)$. Using Bayes theorem, we find that 
-        $$P(z_t|X) = \frac{P(X|z_t)P(z_t)}{P(X)}$$
-        Let's denote 
-        $$\alpha(z_t) \equiv \frac{P(X|z_t)}{P(X)} = P(z_t|X)$$
-        Since everything is Gaussian, we set $\alpha(z_t) = \mathcal{N}(z_t|\mu_t,V_t)$. Now we need to solve for $\mu_t$ and $V_t$.
-        Breaking our equations down and using the markov propertly, we find 
-        $$\alpha(z_t) = P(x_t|z_t)\int \alpha(z_{t-1})P(z_t|z_{t-1})dz_{t-1}$$
+          <h3>The Meat and Potatoes</h3>
+          How does this help us? Well, let's think about our linear dynamic system: we have a set of parameters $\theta \in \{A,C,\mu_0,\Gamma,\Sigma,V_0\}$ and a set of hidden states that we want to discover.
+          We can use the EM algorithm and solve for the sequence of hidden states $z_{1:T}$ in the E-step, and then optimize for $\theta$ in our M-step!
+          Our dynamical system gives rise to the following properties:
+          $$P(z_{t+1}|z_t) = \mathcal{N}(z_{t+1}|Az_t,\Gamma)$$
+          $$P(x_t|z_t) = \mathcal{N}(x_t|Cz_t,\Sigma)$$
+          $$P(z_1) = \mathcal{N}(z_1|\mu_0,V_0)$$
+          where we take the condition on $\theta$ to be given for notational purposes.
+          Factorizing our model using the markov independence assumption (the state at time $t$ only depends on the state at $t-1$), our log-likelihood becomes
+          $$ln\ P(X|\theta) = \sum_{t=1}^T ln\ P(x_t|z_t, C, \Sigma) + \sum_{t=2}^T ln\ P(z_t|z_{t-1}, A, \Gamma) + ln\ P(z_1|\mu_0, V_0)$$
 
-      </article>
+          <h4>Deriving the E-Step</h4>
+          Given this, our goal in the E-step is to find $P(z_t|X)$. Using Bayes theorem, we find that 
+          $$P(z_t|X) = \frac{P(X|z_t)P(z_t)}{P(X)}$$
+          Let's denote 
+          $$\alpha(z_t) \equiv \frac{P(X|z_t)}{P(X)} = P(z_t|X)$$
+          Since everything is Gaussian, we set $\alpha(z_t) = \mathcal{N}(z_t|\mu_t,V_t)$. Now we need to solve for $\mu_t$ and $V_t$.
+          Breaking our equations down and using the markov propertly, we find 
+          $$\alpha(z_t) = P(x_t|z_t)\int \alpha(z_{t-1})P(z_t|z_{t-1})dz_{t-1}$$
+
+        </article>
+      </div>
+      <footer-element style="width: 80%;"></footer-element>
     </div>
-    <footer-element></footer-element>
   </body>
 </html>

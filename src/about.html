@@ -7,13 +7,24 @@
     <link href="/style.css" rel="stylesheet" type="text/css" media="all">
     <script src="/js/header.js" type="text/javascript" defer></script>
     <script src="/js/footer.js" type="text/javascript" defer></script>
+    <style>
+      .container { 
+        grid-template:
+          "main-content sb1"
+          "main-content sb2" 
+          "main-content ."
+          "main-content ."
+          "footer ." ;
+      }
+    </style>
   </head>
 
   <body>
     <navbar-header></navbar-header>
+
     <div class="container">
 
-      <div class="main-content">
+      <div class="main-content"">
         <h1>About Me</h1>
           My name is Armand!
           I'm a PhD student in computational neuroscience at UT Southwestern Medical Center under the advising of <a href="https://www.zhang-cnl.org/">Dr. Wenhao Zhang</a>!
@@ -26,35 +37,26 @@
           
       </div>
         
-      <div class="column">
-        <div class="sidebar">
-          <center>
-            <h3>This is me if you even care</h3>
-            <img src=resources/maddo_scientisto.jpg width=200 height=auto>
-          </center>
-        </div>
-        <div class="sidebar">
-          <center>
-            <h3>Links</h3>
-            <ul>
-              <li><a href="https://github.com/ArmandRathgeb">Github</a><br></li>
-              <li><a href="https://scholar.google.com/citations?hl=en&amp;user=cK2dOI4AAAAJ">Google Scholar</a><br></li>
-              <li><a href="resources/Armand_Rathgeb_CV.pdf">CV</a></li>
-            </ul>
-          </center>
-        </div>
-        
-        <div class="sidebar">
-          <center>
-            <h3>Contact</h3>
-            <ul>
-              <li><address><a href="mailto:armand.rathgeb@utsouthwestern.edu">Email</a></address></li>
-            </ul>
-          </center>
-        </div>
+      <div class="sidebar" style="grid-area:sb1;">
+        <center>
+          <h3>This is me if you even care</h3>
+          <img src=resources/maddo_scientisto.jpg width=200 height=auto>
+        </center>
       </div>
+      <div class="sidebar" style="grid-area:sb2;">
+        <center>
+          <h3>Links</h3>
+          <ul>
+            <li><a href="https://github.com/ArmandRathgeb">Github</a><br></li>
+            <li><a href="https://scholar.google.com/citations?hl=en&amp;user=cK2dOI4AAAAJ">Google Scholar</a><br></li>
+            <li><a href="resources/Armand_Rathgeb_CV.pdf">CV</a></li>
+            <li><address><a href="mailto:armand.rathgeb@utsouthwestern.edu">Email</a></address></li>
+          </ul>
+        </center>
+      </div>
+        
+      <footer-element style="grid-area:footer;"></footer-element>
     </div>
     
-    <footer-element></footer-element>
   </body>
 </html>

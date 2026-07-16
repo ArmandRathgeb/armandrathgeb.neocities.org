@@ -37,7 +37,7 @@ html,body {
   font-family: 'Google Sans Code';
   background-image: url("/resources/brain.svg");
   background-repeat: repeat repeat;
-  background-size: 35em;
+  background-size: 10em;
 }
 
 /* Header elements */
@@ -110,10 +110,17 @@ header {
 
 /* Body elements */
 .container {
-  display: flex;
   gap: 20px;
   padding: 0 20px;
   margin: 20px auto;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr 2fr;
+  grid-template:
+    "main-content sidebar"
+    "main-content ."
+    "footer .";
 }
 
 .sidebar, .badge-sidebar {
@@ -137,6 +144,8 @@ header {
 .column {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 20px;
 }
 
@@ -144,13 +153,20 @@ header {
   flex-grow: 1;
 }
 
-.main-content {
+.main-content, .article-content {
   flex: 1;
   border-radius: 20px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   padding: 20px;
   background-color: #8471DCF5; 
   color: whitesmoke;
+
+  grid-area: main-content;
+  min-width: 80%;
+}
+
+.article-content {
+  max-width: 80%;
 }
 
 .sidebar h3::after,
@@ -237,10 +253,18 @@ figcaption {
   margin: 0 10px;
 }
 
+details summary {
+  font-weight: bold;
+  border-bottom: 1px solid;
+}
+
+details {
+  margin: 8px 0;
+}
+
 /* Footer elements */
 
 footer {
-  margin: 20px 20px;
   display: flex;
   font-size: 0.75em;
   border-radius: 20px;
