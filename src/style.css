@@ -264,6 +264,15 @@ details {
 
 /* Footer elements */
 
+.container footer-element {
+  grid-area: footer;
+  width: 100%;
+}
+
+.column footer-element {
+  width: 80%;
+}
+
 footer {
   display: flex;
   font-size: 0.75em;
