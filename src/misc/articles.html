@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Armand's Corner - Articles</title>
     <link href="/style.css" rel="stylesheet" type="text/css" media="all">
+    <script src="/js/mathjax-config.js" type="text/javascript" defer></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js"></script>
     <script src="/js/header.js" type="text/javascript" defer></script>
     <script src="/js/footer.js" type="text/javascript" defer></script>
     <style>
@@ -13,10 +15,10 @@
       }
     </style>
   </head>
-      
+
   <body>
     <navbar-header></navbar-header>
-    
+
     <div class="column">
       <div class="article-content">
         <h1>Articles</h1>
@@ -27,9 +29,29 @@
         </details>
 
         <details>
-          <summary><a href="https://medium.com/swlh/a-deep-conceptual-guide-to-mutual-information-a5021031fad0>">
-            A Deep Conceptual Guide to Mutual Information
-          </a></summary>
+          <summary>
+            <a href="https://medium.com/swlh/a-deep-conceptual-guide-to-mutual-information-a5021031fad0>">
+              A Deep Conceptual Guide to Mutual Information
+            </a>
+          </summary>
+          <p>
+            A great article that first hits on the shortcomings of Pearson's Correlation
+            before contrasting it with information theoretic methods of determining
+            correlation.
+          </p>
+          <p>
+            Pearson's correlation attempts to uncover <it>linear</it> relationships between
+            variables. In practice, very few relationships in the real world are linear,
+            thus this method falls apart. Worse still, spurious correlations are common
+            and very prevalent in scientific literature.
+          </p>
+          <p>
+            Mutual Information helps us uncover the dependence structure between two variables
+            by comparing how much information is shared between them. Mutual Information considers
+            the actual values presented rather than assuming a specific distribution like Pearson's
+            Correlation does.
+          </p>
+
         </details>
 
         <details>

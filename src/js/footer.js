@@ -2,13 +2,13 @@ class Footer extends HTMLElement {
   constructor() {
     super();
   }
-  
+
   connectedCallback() {
      this.innerHTML = `
     <footer class="main-content">
-      Armand Rathgeb, 2026- 
+      Under construction since 2026
       <div class="vr"></div>
-      <a href="/about.html">Contact me</a> 
+      <a href="/about.html">Contact me</a>
       <div class="vr"></div>
       <a href="/pgp.html">PGP</a>
     <footer>
