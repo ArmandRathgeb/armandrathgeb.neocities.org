@@ -8,13 +8,17 @@
     <script src="/js/header.js" type="text/javascript" defer></script>
     <script src="/js/footer.js" type="text/javascript" defer></script>
     <style>
-      .container { 
+      .container {
         grid-template:
           "main-content sb1"
-          "main-content sb2" 
+          "main-content sb2"
           "main-content ."
           "main-content ."
           "footer ." ;
+      }
+      .main-content img {
+          max-width: 80%;
+          height: auto;
       }
     </style>
   </head>
@@ -28,15 +32,19 @@
         <h1>About Me</h1>
           My name is Armand!
           I'm a PhD student in computational neuroscience at UT Southwestern Medical Center under the advising of <a href="https://www.zhang-cnl.org/">Dr. Wenhao Zhang</a>!
-          
+
           <h2>My Research Interests</h2>
-          
+
           <h2>My setup</h2>
           I use archbtw on a thinkpad that I purchased on Craig's list for $180.<br><br>
-          <a href="https://github.com/ArmandRathgeb/Dotfiles"><center><img src="resources/setup.jpg" width=720 height=auto></center></a>
-          
+          <a href="https://github.com/ArmandRathgeb/Dotfiles">
+              <center>
+                  <img src="resources/setup.jpg" width=720>
+              </center>
+          </a>
+
       </div>
-        
+
       <div class="sidebar" style="grid-area:sb1;">
         <center>
           <h3>This is me if you even care</h3>
@@ -54,9 +62,9 @@
           </ul>
         </center>
       </div>
-        
+
       <footer-element></footer-element>
     </div>
-    
+
   </body>
 </html>

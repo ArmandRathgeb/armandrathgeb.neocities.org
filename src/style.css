@@ -19,7 +19,7 @@
 /* Overall elements */
 
 a {
-  color: #24273a; 
+  color: #24273a;
 }
 
 .shadow {
@@ -33,10 +33,9 @@ a {
 html,body {
   margin: 0;
   padding: 0;
-  background-color: #050305;
+  min-height: 100%;
   font-family: 'Google Sans Code';
-  background-image: url("/resources/brain.svg");
-  background-repeat: repeat repeat;
+  background: #050305 url("resources/brain.svg") repeat;
   background-size: 10em;
 }
 
@@ -83,16 +82,18 @@ header {
 .header-nav ul .dropdown {
   display: none;
   position: absolute;
-  background-color: rgba(0,0,0,0,0.15);
+  background-color: rgba(0,0,0,0.15);
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   z-index: 1000;
   padding: 0;
 }
 
+.dropdown {
+  width: 100%;
+}
+
 .dropdowntrigger:hover .dropdown {
   display: block;
-  width: 100%;
-  text-align: center;
 }
 
 .dropdown-arrow {
@@ -113,11 +114,13 @@ header {
   gap: 20px;
   padding: 0 20px;
   margin: 20px auto;
+  min-height: 100vh;
+  width: 100%;
 
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 1fr 1fr 2fr;
-  grid-template:
+  grid-template-areas:
     "main-content sidebar"
     "main-content ."
     "footer .";
@@ -147,6 +150,7 @@ header {
   align-items: center;
   justify-content: center;
   gap: 20px;
+  min-height: 75vh;
 }
 
 .column .sidebar {
@@ -158,11 +162,12 @@ header {
   border-radius: 20px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   padding: 20px;
-  background-color: #8471DCF5; 
+  background-color: #8471DCF5;
   color: whitesmoke;
 
   grid-area: main-content;
   min-width: 80%;
+  box-sizing: border-box;
 }
 
 .article-content {
@@ -170,17 +175,17 @@ header {
 }
 
 .sidebar h3::after,
-.sidebar h2::after, 
+.sidebar h2::after,
 .sidebar h1::after,
 .main-content h1::after {
   content: "";
   display: block;
-  width: 80%; 
+  width: 80%;
   border-bottom: 1px solid #414868;
-  margin-top: 5px; 
+  margin-top: 5px;
 }
 
-.wrapper { 
+.wrapper {
   display: grid;
   grid-template-columns: repeat(4, 200px);
   row-gap: 1em;
@@ -188,9 +193,9 @@ header {
   place-self: center;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 1200px) {
   .wrapper {
-    grid-template-columns: repeat(2, 150px);
+    grid-template-columns: repeat(2, 200px);
   }
 }
 
@@ -213,7 +218,7 @@ header {
   width: auto;
 }
 
-.sidebar ul, .badage-sidebar ul {
+.sidebar ul, .badge-sidebar ul {
   list-style-type: none;
   padding: 0px;
   margin: 0px;
@@ -320,4 +325,3 @@ footer {
     z-index: -1;
     overflow: hidden;
 }*/
-
